@@ -1,0 +1,397 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3F58C3181CB815C200F7CCA2 /* PEClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F58C3171CB815C200F7CCA2 /* PEClassViewController.swift */; };
+		3F58C31A1CB8499000F7CCA2 /* specificClassViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F58C3191CB8498F00F7CCA2 /* specificClassViewController.swift */; };
+		3F8838801CC00B7800B8722F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F88387F1CC00B7800B8722F /* Settings.swift */; };
+		3F8AE1B11CB6BD8800CBBA0E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AE1B01CB6BD8800CBBA0E /* AppDelegate.swift */; };
+		3F8AE1B31CB6BD8800CBBA0E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8AE1B21CB6BD8800CBBA0E /* ViewController.swift */; };
+		3F8AE1B61CB6BD8800CBBA0E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8AE1B41CB6BD8800CBBA0E /* Main.storyboard */; };
+		3F8AE1B81CB6BD8800CBBA0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F8AE1B71CB6BD8800CBBA0E /* Assets.xcassets */; };
+		3F8AE1BB1CB6BD8800CBBA0E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F8AE1B91CB6BD8800CBBA0E /* LaunchScreen.storyboard */; };
+		3F937CD71CBFF94A00781836 /* entryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F937CD61CBFF94A00781836 /* entryViewController.swift */; };
+		3FA1EFC51CD02D7F002D334E /* homeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FA1EFC41CD02D7F002D334E /* homeViewController.swift */; };
+		3FE69C011CD027EB00ED2CDA /* groupTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FE69C001CD027EB00ED2CDA /* groupTableCell.swift */; };
+		711D4C72C76E0638704B7061 /* Pods_PE_Fitbit_Build.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C757E917F535D25A40EE70B /* Pods_PE_Fitbit_Build.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3F58C3171CB815C200F7CCA2 /* PEClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PEClassViewController.swift; sourceTree = "<group>"; };
+		3F58C3191CB8498F00F7CCA2 /* specificClassViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = specificClassViewController.swift; sourceTree = "<group>"; };
+		3F88387F1CC00B7800B8722F /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		3F8AE1AD1CB6BD8800CBBA0E /* PE Fitbit Build.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PE Fitbit Build.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F8AE1B01CB6BD8800CBBA0E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		3F8AE1B21CB6BD8800CBBA0E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3F8AE1B51CB6BD8800CBBA0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3F8AE1B71CB6BD8800CBBA0E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3F8AE1BA1CB6BD8800CBBA0E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3F8AE1BC1CB6BD8800CBBA0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F937CD61CBFF94A00781836 /* entryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = entryViewController.swift; sourceTree = "<group>"; };
+		3FA1EFC41CD02D7F002D334E /* homeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = homeViewController.swift; sourceTree = "<group>"; };
+		3FE69C001CD027EB00ED2CDA /* groupTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = groupTableCell.swift; sourceTree = "<group>"; };
+		5B71D371095E0B3D605D9B73 /* Pods-PE Fitbit Build.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PE Fitbit Build.release.xcconfig"; path = "Pods/Target Support Files/Pods-PE Fitbit Build/Pods-PE Fitbit Build.release.xcconfig"; sourceTree = "<group>"; };
+		5F280C7D43759A812F0DB2A2 /* Pods-PE Fitbit Build.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PE Fitbit Build.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PE Fitbit Build/Pods-PE Fitbit Build.debug.xcconfig"; sourceTree = "<group>"; };
+		9C757E917F535D25A40EE70B /* Pods_PE_Fitbit_Build.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PE_Fitbit_Build.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3F8AE1AA1CB6BD8800CBBA0E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				711D4C72C76E0638704B7061 /* Pods_PE_Fitbit_Build.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3F8AE1A41CB6BD8800CBBA0E = {
+			isa = PBXGroup;
+			children = (
+				3F8AE1AF1CB6BD8800CBBA0E /* PE Fitbit Build */,
+				3F8AE1AE1CB6BD8800CBBA0E /* Products */,
+				94F5B2ED65A41203947D7079 /* Pods */,
+				8871D057A09A6C64DD2F9D3A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		3F8AE1AE1CB6BD8800CBBA0E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F8AE1AD1CB6BD8800CBBA0E /* PE Fitbit Build.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3F8AE1AF1CB6BD8800CBBA0E /* PE Fitbit Build */ = {
+			isa = PBXGroup;
+			children = (
+				3F8AE1B01CB6BD8800CBBA0E /* AppDelegate.swift */,
+				3F937CD61CBFF94A00781836 /* entryViewController.swift */,
+				3FA1EFC41CD02D7F002D334E /* homeViewController.swift */,
+				3F8AE1B21CB6BD8800CBBA0E /* ViewController.swift */,
+				3F58C3171CB815C200F7CCA2 /* PEClassViewController.swift */,
+				3F58C3191CB8498F00F7CCA2 /* specificClassViewController.swift */,
+				3F88387F1CC00B7800B8722F /* Settings.swift */,
+				3F8AE1B41CB6BD8800CBBA0E /* Main.storyboard */,
+				3FE69C001CD027EB00ED2CDA /* groupTableCell.swift */,
+				3F8AE1B71CB6BD8800CBBA0E /* Assets.xcassets */,
+				3F8AE1B91CB6BD8800CBBA0E /* LaunchScreen.storyboard */,
+				3F8AE1BC1CB6BD8800CBBA0E /* Info.plist */,
+			);
+			path = "PE Fitbit Build";
+			sourceTree = "<group>";
+		};
+		8871D057A09A6C64DD2F9D3A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9C757E917F535D25A40EE70B /* Pods_PE_Fitbit_Build.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		94F5B2ED65A41203947D7079 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F280C7D43759A812F0DB2A2 /* Pods-PE Fitbit Build.debug.xcconfig */,
+				5B71D371095E0B3D605D9B73 /* Pods-PE Fitbit Build.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F8AE1AC1CB6BD8800CBBA0E /* PE Fitbit Build */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F8AE1BF1CB6BD8800CBBA0E /* Build configuration list for PBXNativeTarget "PE Fitbit Build" */;
+			buildPhases = (
+				6DAE6A07D12A7B5098E643B3 /* Check Pods Manifest.lock */,
+				3F8AE1A91CB6BD8800CBBA0E /* Sources */,
+				3F8AE1AA1CB6BD8800CBBA0E /* Frameworks */,
+				3F8AE1AB1CB6BD8800CBBA0E /* Resources */,
+				06C2DA2027220BF4597C0C64 /* Embed Pods Frameworks */,
+				ABC3B675AD55915D96C17F2A /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PE Fitbit Build";
+			productName = "PE Fitbit Build";
+			productReference = 3F8AE1AD1CB6BD8800CBBA0E /* PE Fitbit Build.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3F8AE1A51CB6BD8800CBBA0E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = shedtechsolutions;
+				TargetAttributes = {
+					3F8AE1AC1CB6BD8800CBBA0E = {
+						CreatedOnToolsVersion = 7.3;
+					};
+				};
+			};
+			buildConfigurationList = 3F8AE1A81CB6BD8800CBBA0E /* Build configuration list for PBXProject "PE Fitbit Build" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3F8AE1A41CB6BD8800CBBA0E;
+			productRefGroup = 3F8AE1AE1CB6BD8800CBBA0E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F8AE1AC1CB6BD8800CBBA0E /* PE Fitbit Build */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3F8AE1AB1CB6BD8800CBBA0E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F8AE1BB1CB6BD8800CBBA0E /* LaunchScreen.storyboard in Resources */,
+				3F8AE1B81CB6BD8800CBBA0E /* Assets.xcassets in Resources */,
+				3F8AE1B61CB6BD8800CBBA0E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		06C2DA2027220BF4597C0C64 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PE Fitbit Build/Pods-PE Fitbit Build-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6DAE6A07D12A7B5098E643B3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		ABC3B675AD55915D96C17F2A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PE Fitbit Build/Pods-PE Fitbit Build-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3F8AE1A91CB6BD8800CBBA0E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F8838801CC00B7800B8722F /* Settings.swift in Sources */,
+				3F8AE1B31CB6BD8800CBBA0E /* ViewController.swift in Sources */,
+				3F58C31A1CB8499000F7CCA2 /* specificClassViewController.swift in Sources */,
+				3FA1EFC51CD02D7F002D334E /* homeViewController.swift in Sources */,
+				3FE69C011CD027EB00ED2CDA /* groupTableCell.swift in Sources */,
+				3F937CD71CBFF94A00781836 /* entryViewController.swift in Sources */,
+				3F8AE1B11CB6BD8800CBBA0E /* AppDelegate.swift in Sources */,
+				3F58C3181CB815C200F7CCA2 /* PEClassViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3F8AE1B41CB6BD8800CBBA0E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F8AE1B51CB6BD8800CBBA0E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3F8AE1B91CB6BD8800CBBA0E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3F8AE1BA1CB6BD8800CBBA0E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3F8AE1BD1CB6BD8800CBBA0E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3F8AE1BE1CB6BD8800CBBA0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3F8AE1C01CB6BD8800CBBA0E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F280C7D43759A812F0DB2A2 /* Pods-PE Fitbit Build.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "PE Fitbit Build/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "weebly.com.shedtechsolutions.PE-Fitbit-Build";
+				PRODUCT_NAME = "PE Fitbit Build";
+			};
+			name = Debug;
+		};
+		3F8AE1C11CB6BD8800CBBA0E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5B71D371095E0B3D605D9B73 /* Pods-PE Fitbit Build.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "PE Fitbit Build/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "weebly.com.shedtechsolutions.PE-Fitbit-Build";
+				PRODUCT_NAME = "PE Fitbit Build";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3F8AE1A81CB6BD8800CBBA0E /* Build configuration list for PBXProject "PE Fitbit Build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F8AE1BD1CB6BD8800CBBA0E /* Debug */,
+				3F8AE1BE1CB6BD8800CBBA0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F8AE1BF1CB6BD8800CBBA0E /* Build configuration list for PBXNativeTarget "PE Fitbit Build" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F8AE1C01CB6BD8800CBBA0E /* Debug */,
+				3F8AE1C11CB6BD8800CBBA0E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3F8AE1A51CB6BD8800CBBA0E /* Project object */;
+}

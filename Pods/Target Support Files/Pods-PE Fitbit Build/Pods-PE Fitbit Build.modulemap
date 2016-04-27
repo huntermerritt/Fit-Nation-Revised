@@ -1,0 +1,6 @@
+framework module Pods_PE_Fitbit_Build {
+  umbrella header "Pods-PE Fitbit Build-umbrella.h"
+
+  export *
+  module * { export * }
+}
