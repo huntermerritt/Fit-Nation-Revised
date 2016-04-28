@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet var pieChart : PieChartView!
+    //@IBOutlet var pieChart : PieChartView!
     var friends: [String] = []
     var stepsArray: [Int] = []
     var defaults = NSUserDefaults.standardUserDefaults()
@@ -41,40 +41,40 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let step = ["Steps", "Steps away from target"]
         let stepTotal = [8080.0, 1020.0]
         
-        setChart(step, values: stepTotal)
+       // setChart(step, values: stepTotal)
         
         
     }
 
     
-    func setChart(dataPoints: [String], values: [Double]) {
+//    func setChart(dataPoints: [String], values: [Double]) {
+//        
+//        var dataEntries: [ChartDataEntry] = []
+//        
+//        for i in 0..<dataPoints.count {
+//            let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+//            dataEntries.append(dataEntry)
+//        }
+//    
+//        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "Steps")
+//        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
+        //pieChart.data = pieChartData
         
-        var dataEntries: [ChartDataEntry] = []
-        
-        for i in 0..<dataPoints.count {
-            let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
-            dataEntries.append(dataEntry)
-        }
-        
-        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "Steps")
-        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
-        pieChart.data = pieChartData
-        
-        var colors: [UIColor] = []
-        
-        for i in 0..<dataPoints.count-1 {
-            let color = UIColor(red: CGFloat(0.8), green: CGFloat(0.2), blue: CGFloat(0.2), alpha: 1)
-            colors.append(color)
-        }
-        colors.append(UIColor(red: 255, green: 255, blue: 255, alpha: 0.4))
-        
-        pieChartDataSet.colors = colors
-    }
+//        var colors: [UIColor] = []
+//        
+//        for i in 0..<dataPoints.count-1 {
+//            let color = UIColor(red: CGFloat(0.8), green: CGFloat(0.2), blue: CGFloat(0.2), alpha: 1)
+//            colors.append(color)
+//        }
+//        colors.append(UIColor(red: 255, green: 255, blue: 255, alpha: 0.4))
+//        
+//        pieChartDataSet.colors = colors
+    
     
     override func viewDidAppear(animated: Bool) {
         
 
-        pieChart.animate(yAxisDuration: 2.5)
+        //pieChart.animate(yAxisDuration: 2.5)
         loading()
         
         oauthswift.accessTokenBasicAuthentification = true

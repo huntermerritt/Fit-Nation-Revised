@@ -127,14 +127,33 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return classes.count
+        return classes.count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
+        if indexPath.row == 0
+        {
+            var cell = UITableViewCell(style: .Default, reuseIdentifier: "cell")
+            cell.textLabel?.text = "All Students"
+            cell.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
+            
+            let whiteRoundedView : UIView = UIView(frame: CGRectMake(0, 10, self.view.frame.size.width, 90))
+            
+            whiteRoundedView.layer.backgroundColor = UIColor(red: 70, green: 70, blue: 70, alpha: 0.5).CGColor
+            whiteRoundedView.layer.masksToBounds = false
+            whiteRoundedView.layer.cornerRadius = 2.0
+            whiteRoundedView.layer.shadowOffset = CGSizeMake(-1, 1)
+            whiteRoundedView.layer.shadowOpacity = 0.2
+            
+            cell.contentView.addSubview(whiteRoundedView)
+            cell.contentView.sendSubviewToBack(whiteRoundedView)
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! groupTableCell
         cell.layer.borderColor = UIColor.whiteColor().CGColor
-        cell.groupName.text = classes[indexPath.row]
+        cell.groupName.text = classes[indexPath.row - 1]
         cell.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
         
         let whiteRoundedView : UIView = UIView(frame: CGRectMake(0, 10, self.view.frame.size.width, 90))
@@ -154,8 +173,16 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        sendingClassName = classes[indexPath.row]
+        if indexPath.row == 0
+        {
+            performSegueWithIdentifier("allStudents", sender: self)
+            return
+        }
         
+        sendingClassName = classes[indexPath.row - 1]
+        
+    
+    
         performSegueWithIdentifier("specific", sender: self)
     }
     
@@ -231,6 +258,13 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let next = segue.destinationViewController as! specificClassViewController
             
             next.className = sendingClassName
+            next.parameters = self.parameters
+            next.oauthswift = self.oauthswift
+            next.headers = self.headers
+        }
+        if segue.identifier == "allStudents"
+        {
+            let next = segue.destinationViewController as! ViewController
             next.parameters = self.parameters
             next.oauthswift = self.oauthswift
             next.headers = self.headers

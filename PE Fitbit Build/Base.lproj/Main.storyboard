@@ -97,12 +97,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="c4y-4A-8u4">
                                 <rect key="frame" x="20" y="64" width="280" height="484"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                <view key="tableFooterView" alpha="0.90000000000000002" contentMode="scaleToFill" id="ciE-q5-p1N" customClass="PieChartView" customModule="Charts">
-                                    <rect key="frame" x="0.0" y="72" width="280" height="300"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="tintColor" red="0.63293087121212122" green="0.63293087121212122" blue="0.63293087121212122" alpha="0.0" colorSpace="calibratedRGB"/>
-                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="3Yy-3u-DHL" detailTextLabel="Fer-BB-Jce" style="IBUITableViewCellStyleSubtitle" id="qpx-xa-geE">
                                         <rect key="frame" x="0.0" y="28" width="280" height="44"/>
@@ -135,7 +129,6 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" red="0.58802407560000003" green="1" blue="0.64048223479999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="8Wz-1R-m7m" secondAttribute="bottom" id="IcN-Aj-CDG"/>
                             <constraint firstItem="c4y-4A-8u4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Io6-qh-cwO"/>
@@ -148,7 +141,6 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="PE Fitbit Build" id="yGt-Tj-H6W">
-                        <barButtonItem key="leftBarButtonItem" title="Groups" id="1Qe-cO-R6b"/>
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="PAg-S2-GWf">
                             <connections>
                                 <segue destination="myD-Ia-ZWo" kind="popoverPresentation" identifier="showSettings" popoverAnchorBarButtonItem="PAg-S2-GWf" id="6lm-Au-Jrg">
@@ -159,13 +151,12 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="pieChart" destination="ciE-q5-p1N" id="3cS-MU-mgJ"/>
                         <outlet property="tableView" destination="c4y-4A-8u4" id="OjY-gH-PuQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2315" y="269"/>
+            <point key="canvasLocation" x="2072" y="319"/>
         </scene>
         <!--Settings-->
         <scene sceneID="JNn-K1-Ky0">
@@ -374,6 +365,7 @@
                         <outlet property="settingsButton" destination="2Zj-J5-lWi" id="OWg-fp-LUx"/>
                         <outlet property="tableView" destination="qtn-oU-cUa" id="9m4-rb-eRr"/>
                         <segue destination="gTC-hW-0uI" kind="show" identifier="specific" id="AWO-Wq-fNg"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="allStudents" id="met-MV-SXn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="48I-zC-Wbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -448,6 +440,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bl7-OB-tTH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="barTintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -460,11 +454,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back" width="700" height="467"/>
+        <image name="back" width="3500" height="2500"/>
         <image name="bgImg" width="80" height="120"/>
         <image name="unnamed" width="1058" height="1058"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RL3-SJ-wZk"/>
+        <segue reference="6lm-Au-Jrg"/>
     </inferredMetricsTieBreakers>
 </document>
