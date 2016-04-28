@@ -34,9 +34,8 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         
         //masterErase()
         
-        tableView.rowHeight = 100
+        tableView.rowHeight = 80
         
-        tableView.layer.cornerRadius = 25
         tableView.clipsToBounds = true
         
         if defaults.arrayForKey("classes") != nil
@@ -79,14 +78,10 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
                 }
                 
             }))
-
+            
             presentViewController(alert, animated: true, completion: nil)
         }
         self.title = className
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        
         
         oauthswift.accessTokenBasicAuthentification = true
         
@@ -96,7 +91,7 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             do
             {
                 jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-            
+                
                 let friendsDict = jsonDict["friends"] as! NSArray
                 for num in 0 ..< friendsDict.count
                 {
@@ -120,20 +115,26 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
                         newSteps.append(self.stepsArray[temp])
                     }
                 }
-                                    
+                
                 self.friends = newFriends
                 self.stepsArray = newSteps
                 self.tableView.reloadData()
-                }catch{
-                    print("Error")
-                    print(error)
-                }
+            }catch{
+                print("Error")
+                print(error)
+            }
             
             }) { (error) -> Void in
                 print(error)
         }
         
-
+        tableView.reloadData()
+        
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        
     }
     
     
@@ -143,6 +144,9 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         return friends.count
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("showStudentView", sender: self)
+    }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -157,26 +161,25 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             
             cell.textLabel?.text = friends[indexPath.row] + " : " + classIdentifier
             cell.detailTextLabel?.text = getGrade(stepsArray[indexPath.row])
+            cell.textLabel?.font = UIFont(name: "futura", size: 16)
+            cell.detailTextLabel?.font = UIFont(name: "futura", size: 12)
             
-            if (Double)(stepsArray[indexPath.row]) / gradeNum <= 0.7
-            {
-                cell.backgroundColor = UIColor.redColor()
-                cell.imageView?.image = UIImage(named: "bad")
-            }
-            else if (Double)(stepsArray[indexPath.row]) / gradeNum <= 0.9
-            {
-                cell.backgroundColor = UIColor.yellowColor()
-                cell.imageView?.image = UIImage(named: "fitness")
-            }
-            else
-            {
-                cell.backgroundColor = UIColor.greenColor()
-                cell.imageView?.image = UIImage(named: "FitNation")
-            }
         }
         
-        cell.layer.cornerRadius = 25
+        cell.backgroundColor = UIColor.clearColor()
+        
+        let whiteRoundedView : UIView = UIView(frame: CGRectMake(0, 10, self.view.frame.size.width-40, 60))
+        
+        whiteRoundedView.layer.backgroundColor = UIColor(red: 70, green: 70, blue: 70, alpha: 0.5).CGColor
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 15
+        whiteRoundedView.layer.shadowOffset = CGSizeMake(-1, 1)
+        whiteRoundedView.layer.shadowOpacity = 0.2
+        
+        cell.layer.cornerRadius = 15
         cell.clipsToBounds = true
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubviewToBack(whiteRoundedView)
         
         return cell
     }
