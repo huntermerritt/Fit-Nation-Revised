@@ -4,6 +4,7 @@ import Charts
 
 // temp
 //master commit
+// test commit
 
 class homeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate
 {
@@ -86,7 +87,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 var newSteps: [Int] = []
                 
                 
-                print("Friends ID : \(friendsDict.count)")
+                print("Friends ID :                                                                                              \(friendsDict.count)")
                 for numId in 0 ..< self.friendsId.count
                 {
                 self.oauthswift.client.get("https://api.fitbit.com/1/user/\(self.friendsId[numId])/activities/date/2016-04-7.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
