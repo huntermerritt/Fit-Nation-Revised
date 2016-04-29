@@ -22,6 +22,8 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var oauthswift : OAuth2Swift! = nil
     var parameters: [String: AnyObject]!
     var headers : [String: String]!
+    var stepTotal : [Double] = []
+    var step = ["Steps", "Steps left"]
     
     override func viewDidLoad()
     {
@@ -41,17 +43,42 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             friendClasses = defaults.arrayForKey("friendClasses") as! [String]
         }
+        
+        if defaults.objectForKey("grade") != nil
+        {
+            stepTotal.append(2020)
+            stepTotal.append((defaults.objectForKey("grade")) as! Double - 2020)
+        }
+        else
+        {
+            stepTotal.append(0)
+            stepTotal.append(10000)
+        }
+        overallAvgLabel.text = "\(Int(stepTotal[0]))"
+        
+        setChart(step, values: stepTotal)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
         
-        let step = ["Steps", "Steps left"]
-        let stepTotal = [8080.0, 1920]
-        setChart(step, values: stepTotal)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
-        pieChart.animate(xAxisDuration: 3, yAxisDuration: 3, easingOption: ChartEasingOption.EaseInBounce)
+        pieChart.animate(xAxisDuration: 2.5, yAxisDuration: 2.5, easingOption: ChartEasingOption.EaseInBounce)
+        stepTotal = []
+        if defaults.objectForKey("grade") != nil
+        {
+            stepTotal.append(2020)
+            stepTotal.append((defaults.objectForKey("grade")) as! Double - 2020)
+        }
+        else
+        {
+            stepTotal.append(0)
+            stepTotal.append(10000)
+        }
+        setChart(step, values: stepTotal)
+        overallAvgLabel.text = "\(Int(stepTotal[0]))"
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -89,6 +116,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         pieChartDataSet.colors = colors
     }
+
     
     @IBAction func addGroup(sender: AnyObject)
     {
