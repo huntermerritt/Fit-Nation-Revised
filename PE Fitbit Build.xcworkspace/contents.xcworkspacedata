@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:PE Fitbit Build.xcodeproj">
+      location = "group:/Users/student/Desktop/Fit-Nation-master 3/PE Fitbit Build.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

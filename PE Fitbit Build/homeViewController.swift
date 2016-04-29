@@ -25,6 +25,10 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var stepTotal : [Double] = []
     var step = ["Steps", "Steps left"]
     
+    var friendsId: [String] = []
+    var total = 0.0
+    var count = 0.0
+    
     override func viewDidLoad()
     {
         overallAvgView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
@@ -60,6 +64,69 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
+        
+        oauthswift.accessTokenBasicAuthentification = true
+        
+        oauthswift.client.get("https://api.fitbit.com/1/user/-/friends.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
+            
+            let jsonDict : NSDictionary!
+            do
+            {
+                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+                
+                let friendsDict = jsonDict["friends"] as! NSArray
+                for num in 0 ..< friendsDict.count
+                {
+                    let alex = friendsDict[num]
+                    let info = alex["user"] as! NSDictionary
+                    let id = info["encodedId"] as! String
+                    self.friendsId.append(id)
+                }
+                var newFriends: [String] = []
+                var newSteps: [Int] = []
+                
+                
+                print("Friends ID : \(friendsDict.count)")
+                for numId in 0 ..< self.friendsId.count
+                {
+                self.oauthswift.client.get("https://api.fitbit.com/1/user/\(self.friendsId[numId])/activities/date/2016-04-7.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
+                    
+                    let jsonDictPersonal : NSDictionary!
+                    
+                    do
+                    {
+                        
+                    jsonDictPersonal = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+                        
+                        print(jsonDictPersonal.allKeys)
+                        
+                        var summary : NSDictionary = jsonDictPersonal["summary"] as! NSDictionary
+                        print(summary.allKeys)
+                        print("Fairly active minutes : " + "\(summary["fairlyActiveMinutes"])" )
+                        print("Steps : " + "\(summary["steps"])")
+                        
+                    }
+                    catch
+                    {
+                        
+                    }
+                    
+                    
+                    
+                    }, failure: { (error) in
+                        print(error)
+                })
+                }
+                
+            }catch{
+                print("Error")
+                print(error)
+            }
+            
+        }) { (error) -> Void in
+            print(error)
+        }
+
         
         
     }
