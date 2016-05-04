@@ -18,17 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KIt-iO-dkR">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back" translatesAutoresizingMaskIntoConstraints="NO" id="Jta-At-dgk">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" red="0.58802407560000003" green="1" blue="0.64048223479999999" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="KIt-iO-dkR" secondAttribute="trailing" constant="-20" id="DHL-N1-ZDY"/>
-                            <constraint firstItem="KIt-iO-dkR" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="cCs-C7-dNB"/>
-                            <constraint firstItem="KIt-iO-dkR" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="cf8-SH-NSK"/>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="KIt-iO-dkR" secondAttribute="bottom" id="gG7-JY-L72"/>
+                            <constraint firstItem="Jta-At-dgk" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="topMargin" id="1SU-Ii-cuU"/>
+                            <constraint firstItem="Jta-At-dgk" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" constant="-20" id="ChP-Np-TyT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Jta-At-dgk" secondAttribute="trailing" constant="-20" id="baP-EL-Fza"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="Jta-At-dgk" secondAttribute="bottom" id="it4-Sk-jjy"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,4 +36,7 @@
             <point key="canvasLocation" x="53" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="back" width="3500" height="2500"/>
+    </resources>
 </document>

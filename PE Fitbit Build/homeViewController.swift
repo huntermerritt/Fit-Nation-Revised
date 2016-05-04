@@ -32,6 +32,17 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad()
     {
+        
+        
+        defaults.setObject(nil, forKey: "classes")
+        defaults.setObject(nil, forKey: "friends")
+        defaults.setObject(nil, forKey: "friendclasses")
+        defaults.setObject(nil, forKey: "grade")
+        defaults.setObject(nil, forKey: "steparray")
+        defaults.setObject(nil, forKey: "friendsDictionary")
+
+
+        
         overallAvgView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
         tableView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         pieChart.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
@@ -147,6 +158,8 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         setChart(step, values: stepTotal)
         overallAvgLabel.text = "\(Int(stepTotal[0]))"
+        
+        print()
     }
     
     func setChart(dataPoints: [String], values: [Double]) {

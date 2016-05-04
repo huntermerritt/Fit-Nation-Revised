@@ -30,6 +30,8 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     var stepArray : NSArray!
     var friendsArray: NSArray!
     
+    var friendDict: Dictionary<String, NSArray> = [" " : []]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,9 +57,9 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         {
             gradeNum = defaults.objectForKey("grade") as! Double
         }
-        if defaults.objectForKey("stepArray") != nil && defaults.objectForKey("friendsArray") != nil
+        if defaults.objectForKey("friendsDictionary") != nil && defaults.objectForKey("friendsArray") != nil
         {
-            stepArray = defaults.objectForKey("stepArray") as! NSArray
+            friendDict = defaults.objectForKey("friendsDictionary") as! NSDictionary as! Dictionary<String, NSArray>
             friendsArray = defaults.objectForKey("friendsArray") as! NSArray
             reloadTableViewData()
             organize()
@@ -100,8 +102,12 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
                                 jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
                                 
                                 let infoo = jsonDict["activities-steps"] as! NSArray
-                                self.stepArray = infoo
-                                self.defaults.setObject(self.stepArray, forKey: "stepArray")
+                                //self.stepArray = infoo
+                                
+                                self.friendDict[name] = infoo
+                                //self.defaults.setObject(self.stepArray, forKey: "stepArray")
+                                self.defaults.setObject(self.friendDict, forKey: "friendsDictionary")
+                                
                             }
                             catch
                             {
@@ -112,8 +118,8 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
                                 print(error)
                                 
                         })
-                        self.friends.append(name)
-                        self.stepsArray.append(steps)
+                       // self.friends.append(name)
+                        //self.stepsArray.append(steps)
                         
                     }
                 
@@ -162,6 +168,8 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             presentViewController(alert, animated: true, completion: nil)
         }
         self.title = className
+        
+        print(self.friendDict.description)
     }
     
     override func viewDidAppear(animated: Bool)
@@ -297,6 +305,29 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             (alert: UIAlertAction!) -> Void in
             print("1 month")
             
+            self.oauthswift.client.get("https://api.fitbit.com/1/user/-/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
+                print("Success")
+                
+                var stuff = NSDictionary()
+                do
+                {
+                    stuff = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary as NSDictionary!
+                    
+                    print(stuff.allKeys)
+                    print(stuff["activities-steps"])
+                    
+                    var temp = stuff["activities-steps"]![0] as! NSDictionary
+                    print(temp.allKeys)
+                    
+                }
+                catch
+                {
+                    
+                }
+                
+                }, failure: { (error) in
+                    print(error)
+            })
             
         })
         
