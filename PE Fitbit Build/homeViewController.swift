@@ -25,6 +25,13 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var headers : [String: String]!
     var stepTotal : [Double] = []
     var step = ["Steps", "Steps left"]
+    var overallStepAvg: Int = 0
+    var savedFriends: [String] = []
+    
+    var friendsArray: NSArray!
+    
+    var friendDict: Dictionary<String, NSArray> = [" " : []]
+    
     
     var friendsId: [String] = []
     var total = 0.0
@@ -34,15 +41,17 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         
         
-        defaults.setObject(nil, forKey: "classes")
-        defaults.setObject(nil, forKey: "friends")
-        defaults.setObject(nil, forKey: "friendclasses")
-        defaults.setObject(nil, forKey: "grade")
-        defaults.setObject(nil, forKey: "steparray")
-        defaults.setObject(nil, forKey: "friendsDictionary")
+//        defaults.setObject(nil, forKey: "classes")
+//        defaults.setObject(nil, forKey: "friends")
+//        defaults.setObject(nil, forKey: "friendclasses")
+//        defaults.setObject(nil, forKey: "grade")
+//        defaults.setObject(nil, forKey: "steparray")
+//        defaults.setObject(nil, forKey: "friendsDictionary")
 
 
-        
+
+        //overallStepAvg = getAverageForGroup("all")
+        pieChart.noDataText = ""
         overallAvgView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
         tableView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
         pieChart.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
@@ -55,6 +64,10 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         {
             classes = defaults.arrayForKey("classes") as! [String]
         }
+        if defaults.arrayForKey("friends") != nil
+        {
+            savedFriends = defaults.arrayForKey("friends") as! [String]
+        }
         if defaults.arrayForKey("friendClasses") != nil
         {
             friendClasses = defaults.arrayForKey("friendClasses") as! [String]
@@ -62,17 +75,88 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if defaults.objectForKey("grade") != nil
         {
-            stepTotal.append(2020)
-            stepTotal.append((defaults.objectForKey("grade")) as! Double - 2020)
+            stepTotal.append(Double(overallStepAvg))
+            stepTotal.append((defaults.objectForKey("grade")) as! Double - Double(overallStepAvg))
         }
         else
         {
-            stepTotal.append(0)
-            stepTotal.append(10000)
+            stepTotal.append(Double(overallStepAvg))
+            stepTotal.append(10000 - Double(overallStepAvg))
         }
-        overallAvgLabel.text = "\(Int(stepTotal[0]))"
+        if defaults.objectForKey("friendsDictionary") != nil && defaults.objectForKey("friendsArray") != nil
+        {
+            friendDict = defaults.objectForKey("friendsDictionary") as! NSDictionary as! Dictionary<String, NSArray>
+            friendsArray = defaults.objectForKey("friendsArray") as! NSArray
+        }
+        else
+        {
+            oauthswift.client.get("https://api.fitbit.com/1/user/-/friends/leaderboard.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
+                
+                let jsonDict : NSDictionary!
+                do
+                {
+                    jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+                    
+                    
+                    let friendsDict = jsonDict["friends"] as! NSArray
+                    
+                    if self.friendsArray == nil || self.friendsArray != friendsDict
+                    {
+                        self.defaults.setObject(friendsDict, forKey: "friendsArray")
+                    }
+                    
+                    for num in 0 ..< friendsDict.count
+                    {
+                        
+                        let alex = friendsDict[num]
+                        let average = alex["average"] as! NSDictionary
+                        let steps = average["steps"] as! Int
+                        let info = alex["user"] as! NSDictionary
+                        let name = info["displayName"] as! String
+                        let info2 = info["encodedId"] as! String
+                        
+                        
+                        
+                        self.oauthswift.client.get("https://api.fitbit.com/1/user/\(info2)/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) -> Void in
+                            
+                            let jsonDict : NSDictionary!
+                            do
+                            {
+                                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+                                
+                                let infoo = jsonDict["activities-steps"] as! NSArray
+                                
+                                self.friendDict[name] = infoo
+                                self.defaults.setObject(self.friendDict, forKey: "friendsDictionary")
+                                
+                            }
+                            catch
+                            {
+                                print("error")
+                            }
+                            
+                            }, failure: { (error) -> Void in
+                                print(error)
+                                
+                        })
+                        
+                    }
+                    
+                    self.tableView.reloadData()
+                }catch{
+                    print("Error")
+                    print(error)
+                }
+                
+                }) { (error) -> Void in
+                    print(error)
+            }
+        }
+
         
-        setChart(step, values: stepTotal)
+        //overallAvgLabel.text = "\(Int(stepTotal[0]))"
+        
+        //setChart(step, values: stepTotal)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
@@ -140,26 +224,27 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
 
         
-        
     }
     
     override func viewDidAppear(animated: Bool) {
+        
+        overallStepAvg = getAverageForGroup("all")
         pieChart.animate(xAxisDuration: 2.5, yAxisDuration: 2.5, easingOption: ChartEasingOption.EaseInBounce)
         stepTotal = []
         if defaults.objectForKey("grade") != nil
         {
-            stepTotal.append(2020)
-            stepTotal.append((defaults.objectForKey("grade")) as! Double - 2020)
+            stepTotal.append(Double(overallStepAvg))
+            stepTotal.append(defaults.objectForKey("grade") as! Double - Double(overallStepAvg))
         }
         else
         {
-            stepTotal.append(0)
-            stepTotal.append(10000)
+            stepTotal.append(Double(overallStepAvg))
+            stepTotal.append(10000 - Double(overallStepAvg))
         }
         setChart(step, values: stepTotal)
         overallAvgLabel.text = "\(Int(stepTotal[0]))"
         
-        print()
+        print("getAverage",getAverageForGroup("Period 1"))
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -175,7 +260,6 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
         pieChart.data = pieChartData
         pieChart.transparentCircleRadiusPercent = 0.67
-        
         pieChart.userInteractionEnabled = false
         pieChart.drawSliceTextEnabled = false
         pieChart.drawHoleEnabled = true
@@ -263,6 +347,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! groupTableCell
         cell.layer.borderColor = UIColor.whiteColor().CGColor
         cell.groupName.text = classes[indexPath.row - 1]
+        cell.averageStepsLabel.text = "\(getAverageForGroup(classes[indexPath.row-1]))"
         cell.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
         
         let whiteRoundedView : UIView = UIView(frame: CGRectMake(0, 10, self.view.frame.size.width, 90))
@@ -378,6 +463,73 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             next.oauthswift = self.oauthswift
             next.headers = self.headers
         }
+    }
+    
+    func getAverageForGroup(group : String) -> Int
+    {
+        var average: Int = 0
+        var number : Int = 0
+        if group == "all"
+        {
+            for (key, value1) in friendDict
+            {
+                for i in value1
+                {
+                    if Int(i.objectForKey("value") as! String)! != 0
+                    {
+                        average = Int(i.objectForKey("value") as! String)! + average
+                        number++
+                    }
+                }
+            }
+            
+            if number != 0
+            {
+                average = average / number
+            }
+            
+        }
+        else
+        {
+            var indexes : [Int] = []
+            for i in 0..<friendClasses.count
+            {
+                print("friendClasses", friendClasses)
+                if friendClasses[i] == group
+                {
+                    indexes.append(i)
+                }
+            }
+            
+            var friends : [String] = []
+            for index in indexes
+            {
+                friends.append((savedFriends)[index])
+            }
+            
+            for friend in friends
+            {
+                for i in friendDict[friend]!
+                {
+                    if Int(i.objectForKey("value") as! String)! != 0
+                    {
+                        average = Int(i.objectForKey("value") as! String)! + average
+                        number++
+                    }
+                }
+            }
+            
+            if number != 0
+            {
+                average = average / number
+            }
+            
+        }
+        
+        
+        print("average : ", average)
+        return average
+        
     }
     
     

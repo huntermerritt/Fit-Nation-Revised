@@ -26,7 +26,11 @@ class entryViewController: UIViewController
         let alert = UIAlertController(title: "Login", message: "You must authorize with Fitbit before using the app", preferredStyle:
             UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Authorize with Fitbit", style: .Default, handler: { (action: UIAlertAction) -> Void in
-            self.authorize()
+            defer {
+                dispatch_async( dispatch_get_main_queue(),{
+                    self.authorize()
+                })
+            }
         }))
         
         
@@ -43,6 +47,7 @@ class entryViewController: UIViewController
         oauthswift.authorizeWithCallbackURL( NSURL(string: "BHSFitbitPE://com.bhsfitbit.pe")!, scope: "activity  profile social", state: state, success: {
             credential, response, parameters in
             
+            print("success")
             self.parameters = parameters
             
             var headers: [String:String]? = nil
@@ -58,6 +63,7 @@ class entryViewController: UIViewController
             
             }, failure: { error in
                 print(error.localizedDescription)
+                print("ERROR")
         })
         
     }

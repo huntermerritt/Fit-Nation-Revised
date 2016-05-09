@@ -65,75 +65,6 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             reloadTableViewData()
             organize()
         }
-        else
-        {
-            oauthswift.client.get("https://api.fitbit.com/1/user/-/friends/leaderboard.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
-                
-                let jsonDict : NSDictionary!
-                do
-                {
-                    jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                    
-                    
-                    let friendsDict = jsonDict["friends"] as! NSArray
-                    
-                    if self.friendsArray == nil || self.friendsArray != friendsDict
-                    {
-                        self.defaults.setObject(friendsDict, forKey: "friendsArray")
-                        self.reloadTableViewData()
-                    }
-                    
-                    for num in 0 ..< friendsDict.count
-                    {
-
-                        let alex = friendsDict[num]
-                        let average = alex["average"] as! NSDictionary
-                        let steps = average["steps"] as! Int
-                        let info = alex["user"] as! NSDictionary
-                        let name = info["displayName"] as! String
-                        let info2 = info["encodedId"] as! String
-                        
-                        
-                        
-                        self.oauthswift.client.get("https://api.fitbit.com/1/user/\(info2)/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) -> Void in
-                            
-                            let jsonDict : NSDictionary!
-                            do
-                            {
-                                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                                
-                                let infoo = jsonDict["activities-steps"] as! NSArray
-                                //self.stepArray = infoo
-                                
-                                self.friendDict[name] = infoo
-                                //self.defaults.setObject(self.stepArray, forKey: "stepArray")
-                                self.defaults.setObject(self.friendDict, forKey: "friendsDictionary")
-                                
-                            }
-                            catch
-                            {
-                                print("error")
-                            }
-                            
-                            }, failure: { (error) -> Void in
-                                print(error)
-                                
-                        })
-                       // self.friends.append(name)
-                        //self.stepsArray.append(steps)
-                        
-                    }
-                
-                    self.tableView.reloadData()
-                }catch{
-                    print("Error")
-                    print(error)
-                }
-                
-                }) { (error) -> Void in
-                    print(error)
-            }
-        }
         if defaults.objectForKey("friendsArray") != nil
         {
             friendsArray = defaults.objectForKey("friendsArray") as! NSArray
@@ -305,31 +236,23 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         let month = UIAlertAction(title: "1 month (Not including today)", style: .Default, handler: {
             (alert: UIAlertAction!) -> Void in
             print("1 month")
-            
-            self.oauthswift.client.get("https://api.fitbit.com/1/user/-/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
-                print("Success")
-                
-                var stuff = NSDictionary()
-                do
+            self.stepsArray = []
+            var average = 0
+            var number = 0
+            for friend in self.savedFriends
+            {
+                for i in self.friendDict[friend]!
                 {
-                    stuff = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! NSDictionary as NSDictionary!
-                    
-                    print(stuff.allKeys)
-                    print(stuff["activities-steps"])
-                    
-                    var temp = stuff["activities-steps"]![0] as! NSDictionary
-                    print(temp.allKeys)
-                    
+                    average = average + Int(i.objectForKey("value") as! String)!
+                    number++
                 }
-                catch
+                if number != 0
                 {
-                    
+                    self.stepsArray.append(average/number)
+                    print(self.stepsArray)
                 }
-                
-                }, failure: { (error) in
-                    print(error)
-            })
-            
+            }
+            self.tableView.reloadData()
         })
         
         let week = UIAlertAction(title: "1 Week (Not including today)", style: .Default, handler: {

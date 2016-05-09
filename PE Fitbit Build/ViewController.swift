@@ -14,9 +14,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 {
     
     
-    
-    
-    
     @IBOutlet weak var tableView: UITableView!
     
     var friends: [String] = []
@@ -35,7 +32,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        tableView.layer.cornerRadius = 25
+        tableView.rowHeight = 80
         tableView.clipsToBounds = true
     }
 
@@ -121,30 +118,39 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "cell")
+    
+   
         
-       
-            
-            let studentClass = savedFriends.indexOf(friends[indexPath.row])
-            
-            cell.layer.cornerRadius = 25
-            cell.clipsToBounds = true
-            
-            if studentClass != nil
-            {
-                let classIdentifier = friendClasses[studentClass!]
-                
-                cell.textLabel?.text = friends[indexPath.row] + " : " + classIdentifier
-                cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])" + "  " + getGrade(stepsArray[indexPath.row])
-            }
-            else
-            {
-                cell.textLabel?.text = friends[indexPath.row]
-                cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])" + "  " + getGrade(stepsArray[indexPath.row])
-            }
-            
+        let studentClass = savedFriends.indexOf(friends[indexPath.row])
         
-            cell.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.3)
+        if studentClass != nil
+        {
+            let classIdentifier = friendClasses[studentClass!]
+            
+            cell.textLabel?.text = friends[indexPath.row] + " : " + classIdentifier
+            cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])"
+        }
+        else
+        {
+            cell.textLabel?.text = friends[indexPath.row]
+            cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])"
+        }
+
+        cell.layer.borderColor = UIColor.whiteColor().CGColor
+        cell.backgroundColor = UIColor.clearColor()
+    
+        let whiteRoundedView : UIView = UIView(frame: CGRectMake(0, 10, self.view.frame.size.width-40, 60))
+    
+        whiteRoundedView.layer.backgroundColor = UIColor(red: 70, green: 70, blue: 70, alpha: 0.5).CGColor
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 15
+        whiteRoundedView.layer.shadowOffset = CGSizeMake(-1, 1)
+        whiteRoundedView.layer.shadowOpacity = 0.2
         
+        cell.layer.cornerRadius = 15
+        cell.clipsToBounds = true
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubviewToBack(whiteRoundedView)
         
         return cell
     }
@@ -307,13 +313,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             presentViewController(alert, animated: true, completion: nil)
         }
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-    {
-        
-            return 100 //cell height
-       
     }
     
 }
