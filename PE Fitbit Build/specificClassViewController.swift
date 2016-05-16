@@ -30,6 +30,7 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     var date : String = ""
     var stepArray : NSArray!
     var friendsArray: NSArray!
+    var arrayOfValues : [NSDictionary] = []
     
     var friendDict: Dictionary<String, NSArray> = [" " : []]
     
@@ -72,6 +73,10 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             organize()
         }
         
+        
+        
+        
+        
         if gradeNum == 0
         {
             gradeNum = 10000
@@ -101,12 +106,53 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         }
         self.title = className
         
-        print(self.friendDict.description)
     }
     
     override func viewDidAppear(animated: Bool)
     {
+        friends = []
+        stepsArray = []
         
+        print(savedFriends,friendClasses)
+        if savedFriends != [] && friendClasses != []
+        {
+            for i in 0 ..< friendClasses.count
+            {
+                if friendClasses[i] == self.className
+                {
+                    friends.append(savedFriends[i])
+                }
+            }
+            for friend in friends
+            {
+                var average = 0
+                var num = 0
+                for var i in friendDict[friend]!.count-7..<friendDict[friend]!.count
+                {
+                    print(friend, Int(friendDict[friend]![i].objectForKey("value") as! String)!)
+                    if Int(friendDict[friend]![i].objectForKey("value") as! String)! != 0
+                    {
+                        average += Int(friendDict[friend]![i].objectForKey("value") as! String)!
+                        num += 1
+                    }
+                }
+                if num != 0
+                {
+                    average /= num
+                    stepsArray.append(average)
+                }
+                else
+                {
+                    stepsArray.append(0)
+                }
+            }
+            
+            print(friends, stepsArray)
+        }
+        
+        
+        
+        self.tableView.reloadData()
     }
     
     
@@ -117,7 +163,20 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let friend = friends[indexPath.row]
+        for i in self.friendDict[friend]!
+        {
+            if(Int(i.objectForKey("value") as! String)!) != 0
+            {
+                arrayOfValues.append(i as! NSDictionary)
+            }
+        }
+
+        
         performSegueWithIdentifier("showStudentView", sender: self)
+        
+        
     }
     
     
@@ -170,15 +229,19 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         {
             return "F : 50/100"
         }
-        else if grade <= 70
+        else if grade < 60
+        {
+            return "F : \(grade)/100"
+        }
+        else if grade < 70
         {
             return "D : \(grade)/100"
         }
-        else if grade <= 80
+        else if grade < 80
         {
             return "C : \(grade)/100"
         }
-        else if grade <= 90
+        else if grade < 90
         {
             return "B : \(grade)/100"
         }
@@ -192,22 +255,36 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     
     func reloadTableViewData()
     {
-        var newFriends : [String] = []
-        var newSteps: [Int] = []
-        
-        for num in 0 ..< friendsArray.count
+        stepsArray = []
+        print("friends: \(friends)")
+        for num in 0 ..< friends.count
         {
-            let alex = friendsArray[num]
-            let average = alex["average"] as! NSDictionary
-            let steps = average["steps"] as! Int
-            let info = alex["user"] as! NSDictionary
-            let name = info["displayName"] as! String
+            
+            let savedFriend = friendDict[friends[num]]
+            
+            
+            
+            var average = 0
+            var num = 0
+            for data in savedFriend!
+            {
+                if Int(data["value"] as! String)! != 0
+                {
+                    average += Int(data["value"] as! String)!
+                    num += 1
+                }
+            }
+            if num != 0
+            {
+                average = average/num
+                stepsArray.append(average)
+            }
+            else
+            {
+                stepsArray.append(0)
+            }
 
-            newFriends.append(name)
-            newSteps.append(steps)
         }
-        friends = newFriends
-        stepsArray = newSteps
         tableView.reloadData()
     }
     
@@ -225,7 +302,6 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }
         self.friends = newFriends
-        self.stepsArray = newSteps
         self.tableView.reloadData()
     }
     
@@ -239,17 +315,24 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
             self.stepsArray = []
             var average = 0
             var number = 0
-            for friend in self.savedFriends
+            for friend in self.friends
             {
+                average = 0
                 for i in self.friendDict[friend]!
                 {
-                    average = average + Int(i.objectForKey("value") as! String)!
-                    number++
+                    if(Int(i.objectForKey("value") as! String)!) != 0
+                    {
+                        average = average + Int(i.objectForKey("value") as! String)!
+                        number++
+                    }
                 }
                 if number != 0
                 {
                     self.stepsArray.append(average/number)
-                    print(self.stepsArray)
+                }
+                else
+                {
+                    self.stepsArray.append(0)
                 }
             }
             self.tableView.reloadData()
@@ -290,4 +373,12 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         self.presentViewController(optionMenu, animated: true, completion: nil)
     }
 
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showStudentView"
+        {
+            let dvc = segue.destinationViewController as! studentViewController
+            dvc.arrayOfValues = self.arrayOfValues
+        }
+    }
 }

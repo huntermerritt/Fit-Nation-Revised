@@ -2,10 +2,6 @@ import UIKit
 import OAuthSwift
 import Charts
 
-// temp
-//master commit
-// test commit
-
 class homeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIPopoverPresentationControllerDelegate
 {
     
@@ -30,7 +26,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     var friendsArray: NSArray!
     
-    var friendDict: Dictionary<String, NSArray> = [" " : []]
+    var friendDict: Dictionary<String, NSArray> = [:]
     
     
     var friendsId: [String] = []
@@ -41,16 +37,15 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     {
         
         
-//        defaults.setObject(nil, forKey: "classes")
-//        defaults.setObject(nil, forKey: "friends")
-//        defaults.setObject(nil, forKey: "friendclasses")
-//        defaults.setObject(nil, forKey: "grade")
-//        defaults.setObject(nil, forKey: "steparray")
-//        defaults.setObject(nil, forKey: "friendsDictionary")
+        //defaults.setObject(nil, forKey: "classes")
+        //defaults.setObject(nil, forKey: "friends")
+        //defaults.setObject(nil, forKey: "friendClasses")
+        //defaults.setObject(nil, forKey: "grade")
+       // defaults.setObject(nil, forKey: "stepArray")
+        //defaults.setObject(nil, forKey: "friendsDictionary")
+      //  defaults.setObject(nil, forKey: "friendsArray")
 
-
-
-        //overallStepAvg = getAverageForGroup("all")
+        print("viewdidload called")
         pieChart.noDataText = ""
         overallAvgView.backgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
         tableView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
@@ -83,80 +78,88 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             stepTotal.append(Double(overallStepAvg))
             stepTotal.append(10000 - Double(overallStepAvg))
         }
-        if defaults.objectForKey("friendsDictionary") != nil && defaults.objectForKey("friendsArray") != nil
-        {
-            friendDict = defaults.objectForKey("friendsDictionary") as! NSDictionary as! Dictionary<String, NSArray>
-            friendsArray = defaults.objectForKey("friendsArray") as! NSArray
-        }
-        else
-        {
-            oauthswift.client.get("https://api.fitbit.com/1/user/-/friends/leaderboard.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
+        oauthswift.client.get("https://api.fitbit.com/1/user/-/friends/leaderboard.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
+            
+            let jsonDict : NSDictionary!
+            do
+            {
+                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
                 
-                let jsonDict : NSDictionary!
-                do
+                
+                let friendsDict = jsonDict["friends"] as! NSArray
+                
+                if self.friendsArray == nil || self.friendsArray != friendsDict
                 {
-                    jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                    
-                    
-                    let friendsDict = jsonDict["friends"] as! NSArray
-                    
-                    if self.friendsArray == nil || self.friendsArray != friendsDict
-                    {
-                        self.defaults.setObject(friendsDict, forKey: "friendsArray")
-                    }
-                    
-                    for num in 0 ..< friendsDict.count
-                    {
-                        
-                        let alex = friendsDict[num]
-                        let average = alex["average"] as! NSDictionary
-                        let steps = average["steps"] as! Int
-                        let info = alex["user"] as! NSDictionary
-                        let name = info["displayName"] as! String
-                        let info2 = info["encodedId"] as! String
-                        
-                        
-                        
-                        self.oauthswift.client.get("https://api.fitbit.com/1/user/\(info2)/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) -> Void in
-                            
-                            let jsonDict : NSDictionary!
-                            do
-                            {
-                                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                                
-                                let infoo = jsonDict["activities-steps"] as! NSArray
-                                
-                                self.friendDict[name] = infoo
-                                self.defaults.setObject(self.friendDict, forKey: "friendsDictionary")
-                                
-                            }
-                            catch
-                            {
-                                print("error")
-                            }
-                            
-                            }, failure: { (error) -> Void in
-                                print(error)
-                                
-                        })
-                        
-                    }
-                    
-                    self.tableView.reloadData()
-                }catch{
-                    print("Error")
-                    print(error)
+                    self.defaults.setObject(friendsDict, forKey: "friendsArray")
                 }
                 
-                }) { (error) -> Void in
-                    print(error)
+                for num in 0 ..< friendsDict.count
+                {
+                    
+                    let alex = friendsDict[num]
+                    let average = alex["average"] as! NSDictionary
+                    let steps = average["steps"] as! Int
+                    let info = alex["user"] as! NSDictionary
+                    let name = info["displayName"] as! String
+                    let info2 = info["encodedId"] as! String
+             
+                    self.oauthswift.client.get("https://api.fitbit.com/1/user/\(info2)/activities/steps/date/today/1m.json", parameters: self.parameters, headers: self.headers, success: { (data, response) -> Void in
+                        
+                        let jsonDict : NSDictionary!
+                        do
+                        {
+                            jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+                            
+                            let infoo = jsonDict["activities-steps"] as! NSArray
+                            
+                            self.friendDict[name] = infoo
+                            self.defaults.setObject(self.friendDict, forKey: "friendsDictionary")
+                            
+                        }
+                        catch
+                        {
+                            print("error")
+                        }
+                        
+                        self.overallStepAvg = self.getAverageForGroup("all")
+                        self.pieChart.animate(xAxisDuration: 2.5, yAxisDuration: 2.5, easingOption: ChartEasingOption.EaseInBounce)
+                        self.stepTotal = []
+                        if self.defaults.objectForKey("grade") != nil
+                        {
+                            self.stepTotal.append(Double(self.overallStepAvg))
+                            self.stepTotal.append(self.defaults.objectForKey("grade") as! Double - Double(self.overallStepAvg))
+                        }
+                        else
+                        {
+                            self.stepTotal.append(Double(self.overallStepAvg))
+                            self.stepTotal.append(10000 - Double(self.overallStepAvg))
+                        }
+                        self.setChart(self.step, values: self.stepTotal)
+                        self.overallAvgLabel.text = "\(Int(self.stepTotal[0]))"
+                        
+                        self.tableView.reloadData()
+                        
+                        }, failure: { (error) -> Void in
+                            print(error)
+                            
+                    })
+                    
+                }
+                
+               
+            }catch{
+                print("Error")
+                print(error)
             }
+            
+            }) { (error) -> Void in
+                print(error)
         }
 
         
         //overallAvgLabel.text = "\(Int(stepTotal[0]))"
         
-        //setChart(step, values: stepTotal)
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
@@ -178,52 +181,51 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     let id = info["encodedId"] as! String
                     self.friendsId.append(id)
                 }
-                var newFriends: [String] = []
-                var newSteps: [Int] = []
+//                var newFriends: [String] = []
+//                var newSteps: [Int] = []
                 
                 
-                print("Friends ID :                                                                                              \(friendsDict.count)")
-                for numId in 0 ..< self.friendsId.count
-                {
-                self.oauthswift.client.get("https://api.fitbit.com/1/user/\(self.friendsId[numId])/activities/date/2016-04-7.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
-                    
-                    let jsonDictPersonal : NSDictionary!
-                    
-                    do
-                    {
-                        
-                    jsonDictPersonal = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                        
-                        print(jsonDictPersonal.allKeys)
-                        
-                        var summary : NSDictionary = jsonDictPersonal["summary"] as! NSDictionary
-                        print(summary.allKeys)
-                        print("Fairly active minutes : " + "\(summary["fairlyActiveMinutes"])" )
-                        print("Steps : " + "\(summary["steps"])")
-                        
-                    }
-                    catch
-                    {
-                        
-                    }
-                    
-                    
-                    
-                    }, failure: { (error) in
-                        print(error)
-                })
-                }
+//                for numId in 0 ..< self.friendsId.count
+//                {
+//                self.oauthswift.client.get("https://api.fitbit.com/1/user/\(self.friendsId[numId])/activities/date/2016-04-7.json", parameters: self.parameters, headers: self.headers, success: { (data, response) in
+//                    
+//                    let jsonDictPersonal : NSDictionary!
+//                    
+//                    do
+//                    {
+//                        
+//                    jsonDictPersonal = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
+//                        
+//
+//                        
+//                        var summary : NSDictionary = jsonDictPersonal["summary"] as! NSDictionary
+//                        
+//                    }
+//                    catch
+//                    {
+//                        
+//                    }
+//                    
+//                    
+//                    
+//                    }, failure: { (error) in
+//                        print(error)
+//                })
+//                }
                 
             }catch{
                 print("Error")
                 print(error)
             }
             
+            self.setChart(self.step, values: self.stepTotal)
+            self.tableView.reloadData()
+            
         }) { (error) -> Void in
             print(error)
         }
-
-        
+        self.setChart(self.step, values: self.stepTotal)
+        self.tableView.reloadData()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -243,8 +245,8 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         setChart(step, values: stepTotal)
         overallAvgLabel.text = "\(Int(stepTotal[0]))"
-        
-        print("getAverage",getAverageForGroup("Period 1"))
+
+        tableView.reloadData()
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
@@ -346,7 +348,8 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         let cell = tableView.dequeueReusableCellWithIdentifier("groupCell") as! groupTableCell
         cell.layer.borderColor = UIColor.whiteColor().CGColor
-        cell.groupName.text = classes[indexPath.row - 1]
+        cell.groupName.text = classes[indexPath.row-1]
+        
         cell.averageStepsLabel.text = "\(getAverageForGroup(classes[indexPath.row-1]))"
         cell.backgroundColor = UIColor(red: 50, green: 50, blue: 50, alpha: 0.5)
         
@@ -373,7 +376,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             return
         }
         
-        sendingClassName = classes[indexPath.row - 1]
+        sendingClassName = classes[indexPath.row-1]
         
     
     
@@ -494,7 +497,6 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             var indexes : [Int] = []
             for i in 0..<friendClasses.count
             {
-                print("friendClasses", friendClasses)
                 if friendClasses[i] == group
                 {
                     indexes.append(i)
@@ -509,12 +511,16 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             for friend in friends
             {
-                for i in friendDict[friend]!
+                if friendDict[friend] != nil
                 {
-                    if Int(i.objectForKey("value") as! String)! != 0
+                    for i in friendDict[friend]!
                     {
-                        average = Int(i.objectForKey("value") as! String)! + average
-                        number++
+                        if Int(i.objectForKey("value") as! String)! != 0
+                        {
+                            
+                            average = Int(i.objectForKey("value") as! String)! + average
+                            number++
+                        }
                     }
                 }
             }
@@ -525,9 +531,6 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
             }
             
         }
-        
-        
-        print("average : ", average)
         return average
         
     }

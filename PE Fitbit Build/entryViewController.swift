@@ -26,11 +26,8 @@ class entryViewController: UIViewController
         let alert = UIAlertController(title: "Login", message: "You must authorize with Fitbit before using the app", preferredStyle:
             UIAlertControllerStyle.Alert)
         alert.addAction(UIAlertAction(title: "Authorize with Fitbit", style: .Default, handler: { (action: UIAlertAction) -> Void in
-            defer {
-                dispatch_async( dispatch_get_main_queue(),{
+        
                     self.authorize()
-                })
-            }
         }))
         
         
@@ -59,11 +56,13 @@ class entryViewController: UIViewController
                 }
             }
             
+            
             self.performSegueWithIdentifier("segue1", sender: self)
             
             }, failure: { error in
                 print(error.localizedDescription)
                 print("ERROR")
+            
         })
         
     }

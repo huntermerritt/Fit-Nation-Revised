@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  PE Fitbit Build
 //
-//  Created by hmerritt on 4/7/16.
+//  Created by hmerritt & adrewno1 on 4/7/16.
 //  Copyright © 2016 shedtechsolutions. All rights reserved.
 // github test
 
@@ -26,6 +26,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var oauthswift : OAuth2Swift! = nil
     var parameters: [String: AnyObject]!
     var headers : [String: String]!
+    var friendDict: Dictionary<String, NSArray> = [:]
     
     let step = [3523.0]
     override func viewDidLoad() {
@@ -34,75 +35,80 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         tableView.rowHeight = 80
         tableView.clipsToBounds = true
+        
+        if defaults.arrayForKey("friends") != nil
+        {
+            savedFriends = defaults.arrayForKey("friends") as! [String]
+        }
+        if defaults.objectForKey("friendsDictionary") != nil
+        {
+            friendDict = defaults.objectForKey("friendsDictionary") as! Dictionary
+        }
+        if defaults.objectForKey("friendClasses") != nil
+        {
+            friendClasses = defaults.objectForKey("friendClasses") as! [String]
+        }
+        if defaults.arrayForKey("classes") != nil
+        {
+            classes = defaults.arrayForKey("classes") as! [String]
+        }
+    
+        self.stepsArray = []
+        var average = 0
+        var number = 0
+        for friend in self.savedFriends
+        {
+            average = 0
+            for i in self.friendDict[friend]!
+            {
+                if(Int(i.objectForKey("value") as! String)!) != 0
+                {
+                    average = average + Int(i.objectForKey("value") as! String)!
+                    number+=1
+                }
+            }
+            if number != 0
+            {
+                self.stepsArray.append(average/number)
+            }
+            else
+            {
+                self.stepsArray.append(0)
+            }
+        }
+        self.tableView.reloadData()
+        
     }
 
     
     
     
-    override func viewDidAppear(animated: Bool) {
-        loading()
-        
-        oauthswift.accessTokenBasicAuthentification = true
-        oauthswift.client.get("https://api.fitbit.com/1/user/-/friends/leaderboard.json", parameters: parameters, headers: headers, success: { (data, response) -> Void in
-            
-            
-            let dataString = NSString(data: data, encoding: NSUTF8StringEncoding)
-            print(dataString)
-            
-            let jsonDict : NSDictionary!
-            do
+    override func viewDidAppear(animated: Bool)
+    {
+        self.stepsArray = []
+        var average = 0
+        var number = 0
+        for friend in self.savedFriends
+        {
+            average = 0
+            for i in self.friendDict[friend]!
             {
-                jsonDict = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as? NSDictionary
-                
-                let friendsDict = jsonDict["friends"] as! NSArray
-                
-                self.friends = []
-                self.stepsArray = []
-                
-                for num in 0 ..< friendsDict.count
+                if(Int(i.objectForKey("value") as! String)!) != 0
                 {
-                    let alex = friendsDict[num]
-                    let average = alex["average"] as! NSDictionary
-                    let steps = average["steps"] as! Int
-                    let info = alex["user"] as! NSDictionary
-                    let name = info["displayName"] as! String
-                    let info2 = info["encodedId"] as! String
-                    
-                    
-                    
-                    self.friends.append(name)
-                    self.stepsArray.append(steps)
-                    
+                    average = average + Int(i.objectForKey("value") as! String)!
+                    number+=1
                 }
-                
-                
-                for temp in 0 ..< self.friends.count
-                {
-                    if self.savedFriends.indexOf(self.friends[temp]) == nil
-                    {
-                        self.savedFriends.append(self.friends[temp])
-                        self.friendClasses.append("  ")
-                        
-                        
-                        
-                    }
-                }
-                
-                self.tableView.reloadData()
-                
-                self.defaults.setObject(self.savedFriends, forKey: "friends")
-                self.defaults.setObject(self.friendClasses, forKey: "friendClasses")
-                
-                
-            }catch{
-                print(error)
             }
-            
-            
-        }) { (error) -> Void in
-            
-            print("Error: " + error.localizedDescription)
+            if number != 0
+            {
+                self.stepsArray.append(average/number)
+            }
+            else
+            {
+                self.stepsArray.append(0)
+            }
         }
+        self.tableView.reloadData()
         
     }
     
@@ -110,7 +116,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return friends.count
+        return savedFriends.count
     }
     
     
@@ -119,20 +125,16 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     {
         let cell = UITableViewCell(style: .Subtitle, reuseIdentifier: "cell")
     
-   
-        
-        let studentClass = savedFriends.indexOf(friends[indexPath.row])
-        
-        if studentClass != nil
+        if indexPath.row < friendClasses.count && friendClasses[indexPath.row] != ""
         {
-            let classIdentifier = friendClasses[studentClass!]
-            
-            cell.textLabel?.text = friends[indexPath.row] + " : " + classIdentifier
+            let classIdentifier = friendClasses[indexPath.row]
+            cell.textLabel?.text = savedFriends[indexPath.row] + " : " + classIdentifier
             cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])"
+
         }
         else
         {
-            cell.textLabel?.text = friends[indexPath.row]
+            cell.textLabel?.text = savedFriends[indexPath.row]
             cell.detailTextLabel?.text = "Daily Step Average: " + "\(stepsArray[indexPath.row])"
         }
 
@@ -173,8 +175,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             let alert = UIAlertController()
             
             var actions: [UIAlertAction] = []
-            
-            print(classes)
+
             
             for num in 0 ..< classes.count
             {
@@ -182,7 +183,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 actions.append(UIAlertAction(title: classes[num], style: .Default, handler: { (action) in
                     
                     
-                    print(self.friendClasses.count)
                     
                     self.friendClasses.insert(action.title!, atIndex: indexPath.row)
                     
@@ -224,19 +224,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         print(steps)
         print(grade)
         
-        if grade <= 50
+        if grade < 60
         {
             return "F : 50/100"
         }
-        else if grade <= 70
+        else if grade < 70
         {
             return "D : \(grade)/100"
         }
-        else if grade <= 80
+        else if grade < 80
         {
             return "C : \(grade)/100"
         }
-        else if grade <= 90
+        else if grade < 90
         {
             return "B : \(grade)/100"
         }

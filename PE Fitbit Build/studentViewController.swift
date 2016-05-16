@@ -8,8 +8,11 @@ class studentViewController: UIViewController, ChartViewDelegate
     @IBOutlet weak var showStepsView: UIButton!
     @IBOutlet weak var gradeScoreLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
-    var stepValues : [Double] = [1000,2000,3000,2000]
-    var dates : [String] = ["10-24-2016", "10-25-2016", "10-26-2016", "10-27-2016"]
+    var stepValues : [Double] = []
+    var dates : [String] = []
+    var arrayOfValues : [NSDictionary]! = nil
+    var targetSteps : Int = 10000
+    let defaults = NSUserDefaults()
     
     override func viewDidLoad()
     {
@@ -25,16 +28,30 @@ class studentViewController: UIViewController, ChartViewDelegate
         showStepsView.layer.cornerRadius = 8
         showStepsView.clipsToBounds = true
         
-        setChart(dates, values: stepValues)
+        for value in arrayOfValues
+        {
+            stepValues.append(Double(value.objectForKey("value") as! String)!)
+            dates.append(value.objectForKey("dateTime") as! String)
+        }
+        
+        if defaults.objectForKey("grade") != nil
+        {
+            targetSteps = defaults.objectForKey("grade") as! Int
+        }
+        
+        
+        if dates != [] && stepValues != []
+        {
+            setChart(dates, values: stepValues)
+        }
     }
     
     override func viewDidAppear(animated: Bool)
     {
-        
+        print(arrayOfValues)
     }
     
     func setChart(dataPoints: [String], values: [Double]) {
-        barChartView.noDataText = ""
         
         var dataEntries: [BarChartDataEntry] = []
         
@@ -52,11 +69,11 @@ class studentViewController: UIViewController, ChartViewDelegate
         chartDataSet.colors = []
         for i in 0..<values.count
         {
-            if values[i] >= 3000
+            if values[i] >= Double(targetSteps)
             {
                 chartDataSet.colors.append(UIColor.greenColor())
             }
-            else if values[i] >= 2000
+            else if values[i] >= Double(targetSteps) / 1.7
             {
                 chartDataSet.colors.append(UIColor.orangeColor())
             }
@@ -71,7 +88,7 @@ class studentViewController: UIViewController, ChartViewDelegate
 
         barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .EaseInBounce)
         
-        let ll = ChartLimitLine(limit: 3000, label: "Target")
+        let ll = ChartLimitLine(limit: Double(targetSteps), label: "Target")
         barChartView.rightAxis.addLimitLine(ll)
         
     }
