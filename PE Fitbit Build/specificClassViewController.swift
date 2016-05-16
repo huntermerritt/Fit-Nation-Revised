@@ -31,6 +31,7 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     var stepArray : NSArray!
     var friendsArray: NSArray!
     var arrayOfValues : [NSDictionary] = []
+    var savedGrade : String = ""
     
     var friendDict: Dictionary<String, NSArray> = [" " : []]
     
@@ -169,9 +170,12 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         {
             if(Int(i.objectForKey("value") as! String)!) != 0
             {
+                arrayOfValues = []
                 arrayOfValues.append(i as! NSDictionary)
             }
         }
+        
+        savedGrade = getGrade(stepsArray[indexPath.row])
 
         
         performSegueWithIdentifier("showStudentView", sender: self)
@@ -379,6 +383,7 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
         {
             let dvc = segue.destinationViewController as! studentViewController
             dvc.arrayOfValues = self.arrayOfValues
+            dvc.savedGrade = savedGrade
         }
     }
 }

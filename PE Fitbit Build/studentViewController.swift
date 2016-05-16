@@ -8,6 +8,7 @@ class studentViewController: UIViewController, ChartViewDelegate
     @IBOutlet weak var showStepsView: UIButton!
     @IBOutlet weak var gradeScoreLabel: UILabel!
     @IBOutlet weak var barChartView: BarChartView!
+    var savedGrade = ""
     var stepValues : [Double] = []
     var dates : [String] = []
     var arrayOfValues : [NSDictionary]! = nil
@@ -28,6 +29,8 @@ class studentViewController: UIViewController, ChartViewDelegate
         showStepsView.layer.cornerRadius = 8
         showStepsView.clipsToBounds = true
         
+        stepValues = []
+        dates = []
         for value in arrayOfValues
         {
             stepValues.append(Double(value.objectForKey("value") as! String)!)
@@ -44,11 +47,20 @@ class studentViewController: UIViewController, ChartViewDelegate
         {
             setChart(dates, values: stepValues)
         }
+        
+        gradeScoreLabel.text = savedGrade
     }
     
     override func viewDidAppear(animated: Bool)
     {
-        print(arrayOfValues)
+        gradeScoreLabel.text = savedGrade
+        stepValues = []
+        dates = []
+        for value in arrayOfValues
+        {
+            stepValues.append(Double(value.objectForKey("value") as! String)!)
+            dates.append(value.objectForKey("dateTime") as! String)
+        }
     }
     
     func setChart(dataPoints: [String], values: [Double]) {

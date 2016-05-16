@@ -519,7 +519,7 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                         {
                             
                             average = Int(i.objectForKey("value") as! String)! + average
-                            number++
+                            number+=1
                         }
                     }
                 }

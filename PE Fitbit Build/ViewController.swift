@@ -33,6 +33,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        tableView.separatorStyle = UITableViewCellSeparatorStyle.None
         tableView.rowHeight = 80
         tableView.clipsToBounds = true
         
