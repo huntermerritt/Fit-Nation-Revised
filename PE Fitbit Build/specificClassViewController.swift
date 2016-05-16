@@ -166,11 +166,12 @@ class specificClassViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let friend = friends[indexPath.row]
+        arrayOfValues = []
         for i in self.friendDict[friend]!
         {
             if(Int(i.objectForKey("value") as! String)!) != 0
             {
-                arrayOfValues = []
+                
                 arrayOfValues.append(i as! NSDictionary)
             }
         }
