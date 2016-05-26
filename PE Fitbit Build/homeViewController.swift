@@ -38,8 +38,8 @@ class homeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         
         //defaults.setObject(nil, forKey: "classes")
-        //defaults.setObject(nil, forKey: "friends")
-        //defaults.setObject(nil, forKey: "friendClasses")
+        defaults.setObject(nil, forKey: "friends")
+        defaults.setObject(nil, forKey: "friendClasses")
         //defaults.setObject(nil, forKey: "grade")
        // defaults.setObject(nil, forKey: "stepArray")
         //defaults.setObject(nil, forKey: "friendsDictionary")
